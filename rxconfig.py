@@ -16,5 +16,6 @@ config = CrmConfig(
         host="localhost",
         port=5432,
         database="vikings",
-    )
+    ),
+    telemetry_enabled=False
 )
