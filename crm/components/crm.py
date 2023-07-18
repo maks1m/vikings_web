@@ -23,8 +23,6 @@ class CRMState(State):
                 where name like '%{self.name_filter}%'
                 """
 
-            print(query)
-
             res = sess.execute(query).all()
             self.vikings = [{"name": x[0], "modified": x[1]} for x in res]
 
