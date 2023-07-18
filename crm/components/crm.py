@@ -7,30 +7,30 @@ from crm.state import State
 
 class CRMState(State):
     vikings: list[dict] = []
-    query: str = ""
+    name_filter: str = ""
 
     def get_vikings(self):
         with rx.session() as sess:
-            # if self.query != "":
-            #     self.vikings = sess.query(Vikings)\
-            #         .filter(Vikings.name.contains(self.query))\
-            #         .all()
-            #     return
-
-            res = sess.execute("""
+            query = """
             select 
                 name, 
                 TO_CHAR(updated_at, 'YYYY/MM/DD HH12:MM:SS') 
             from vikings
-            """).all()
+            """
+
+            if self.name_filter:
+                query += f"""
+                where name like '%{self.name_filter}%'
+                """
+
+            print(query)
+
+            res = sess.execute(query).all()
             self.vikings = [{"name": x[0], "modified": x[1]} for x in res]
 
-            print(self.vikings)
-
-
-    def filter(self, query):
-        self.query = query
-        return self.get_vikings()
+    def set_name_filter(self, value):
+        self.name_filter = value
+        self.get_vikings()
 
     @rx.var
     def vikings_count(self):
@@ -122,7 +122,7 @@ def crm():
             margin_bottom="1rem",
         ),
         # add_modal(),
-        rx.input(placeholder="Filter by name...", on_change=CRMState.filter),
+        rx.input(placeholder="Filter by name...", on_change=CRMState.set_name_filter),
         rx.table_container(
             rx.table(rx.tbody(rx.foreach(CRMState.vikings, viking_row))),
             margin_top="1rem",
