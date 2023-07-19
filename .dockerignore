@@ -1,0 +1,15 @@
+.vscode/
+
+.env
+.history/
+.idea/
+.venv
+.web/
+
+__pycache__/
+dist/
+env/
+out/
+reflex.db
+venv/
+wheels/

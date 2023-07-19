@@ -7,15 +7,17 @@ class CrmConfig(rx.Config):
 
 config = CrmConfig(
     app_name="crm",
-    # db_url="sqlite:///reflex.db",
     env=rx.Env.DEV,
+    api_url="http://0.0.0.0:8000",
+    bun_path="/app/.bun/bin/bun",
     db_config=rx.DBConfig(
         engine="postgresql+psycopg2",
         username="admin",
         password="admin",
-        host="localhost",
+        # host="localhost",
+        host="viking-db",
         port=5432,
         database="vikings",
     ),
-    telemetry_enabled=False
+    telemetry_enabled=False,
 )

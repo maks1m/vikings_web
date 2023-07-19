@@ -12,7 +12,11 @@ class LoginState(State):
 
     def log_in(self):
         with rx.session() as sess:
-            user = sess.exec(User.select.where(User.email == self.email_field)).first()
+            user = sess.exec(
+                User.select
+                .where(User.email == self.email_field)
+            ).first()
+            print(f"User is: {user}")
             if user and user.password == self.password_field:
                 self.user = user
                 return rx.redirect("/")
