@@ -1,6 +1,11 @@
-from crm.state import LoginState
-from crm.components import navbar
 import reflex as rx
+
+from crm.components import navbar
+from crm.state import LoginState
+
+
+def on_page_loaded():
+    print("login page loaded")
 
 
 def login():

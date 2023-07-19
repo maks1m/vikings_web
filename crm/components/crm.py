@@ -1,5 +1,3 @@
-from datetime import datetime
-
 import reflex as rx
 
 from crm.state import State
@@ -8,6 +6,11 @@ from crm.state import State
 class CRMState(State):
     vikings: list[dict[str, str]] = []
     name_filter: str = ""
+
+    def on_page_loaded(self):
+        print("crm page loaded")
+        self.name_filter = ""
+        self.get_vikings()
 
     def get_vikings(self):
         with rx.session() as sess:
@@ -34,59 +37,6 @@ class CRMState(State):
     @rx.var
     def vikings_count(self):
         return len(self.vikings)
-
-    # @rx.var
-    # def vikings(self) -> list[tuple[str, datetime]]:
-    #     return self.contacts()
-
-
-# class AddModalState(CRMState):
-#     show: bool = False
-#     name: str = ""
-#     email: str = ""
-#
-#     def toggle(self):
-#         self.show = not self.show
-#
-#     def add_contact(self):
-#         if not self.user:
-#             raise ValueError("No user logged in")
-#         with rx.session() as sess:
-#             sess.expire_on_commit = False
-#             sess.add(
-#                 Contact(
-#                     user_email=self.user.email, contact_name=self.name, email=self.email
-#                 )
-#             )
-#             sess.commit()
-#             self.toggle()
-#             return self.get_contacts()
-
-
-# def add_modal():
-#     return rx.modal(
-#         rx.modal_overlay(
-#             rx.modal_content(
-#                 rx.modal_header("Add"),
-#                 rx.modal_body(
-#                     rx.input(
-#                         on_change=AddModalState.set_name,
-#                         placeholder="Name",
-#                         margin_bottom="0.5rem",
-#                     ),
-#                     rx.input(on_change=AddModalState.set_email, placeholder="Email"),
-#                     padding_y=0,
-#                 ),
-#                 rx.modal_footer(
-#                     rx.button("Close", on_click=AddModalState.toggle),
-#                     rx.button(
-#                         "Add", on_click=AddModalState.add_contact, margin_left="0.5rem"
-#                     ),
-#                 ),
-#             )
-#         ),
-#         is_open=AddModalState.show,
-#     )
 
 
 def viking_row(viking: dict):
@@ -121,7 +71,6 @@ def crm():
             columns=["5"],
             margin_bottom="1rem",
         ),
-        # add_modal(),
         rx.input(placeholder="Filter by name...", on_change=CRMState.set_name_filter),
         rx.table_container(
             rx.table(rx.tbody(rx.foreach(CRMState.vikings, viking_row))),
