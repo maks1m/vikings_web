@@ -10,5 +10,5 @@ from crm.state import State
 app = rx.App(state=State)
 app.add_page(index, on_load=CRMState.get_vikings())
 app.add_page(login)
-# app.add_page(viking, route="/viking/[name]")
+app.add_page(viking)
 app.compile()

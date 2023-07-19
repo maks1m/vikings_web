@@ -20,7 +20,7 @@ def login():
                 margin_bottom="1rem",
                 on_change=LoginState.set_password_field,
             ),
-            rx.button("Log in", on_click=LoginState.log_in),
+            rx.button("Log in", on_click=LoginState.log_in, color_scheme="blue"),
             max_width="350px",
             flex_direction="column",
         ),

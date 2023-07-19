@@ -6,13 +6,14 @@ from crm.state import State
 
 
 class CRMState(State):
-    vikings: list[dict] = []
+    vikings: list[dict[str, str]] = []
     name_filter: str = ""
 
     def get_vikings(self):
         with rx.session() as sess:
             query = """
             select 
+                id,
                 name, 
                 TO_CHAR(updated_at, 'YYYY/MM/DD HH12:MM:SS') 
             from vikings
@@ -24,7 +25,7 @@ class CRMState(State):
                 """
 
             res = sess.execute(query).all()
-            self.vikings = [{"name": x[0], "modified": x[1]} for x in res]
+            self.vikings = [{"id": x[0], "name": x[1], "modified": x[2]} for x in res]
 
     def set_name_filter(self, value):
         self.name_filter = value
@@ -90,8 +91,9 @@ class CRMState(State):
 
 def viking_row(viking: dict):
     print(viking)
+    link = "/viking/" + viking["name"]
     return rx.tr(
-        rx.td(viking["name"]),
+        rx.td(rx.link(viking["name"], href=link, color="rgb(107,99,246)")),
         rx.td(viking["modified"]),
         # rx.td(rx.badge(viking.stage)),
     )

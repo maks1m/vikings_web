@@ -1,7 +1,8 @@
-from crm.components import navbar
-from crm.components import crm
-from crm.state import State
 import reflex as rx
+
+from crm.components import crm
+from crm.components import navbar
+from crm.state import State
 
 
 def index():
