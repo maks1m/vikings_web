@@ -70,7 +70,14 @@ def crm():
         ),
         rx.input(placeholder="Filter by name...", on_change=CRMState.set_name_filter),
         rx.table_container(
-            rx.table(rx.tbody(rx.foreach(CRMState.vikings, viking_row))),
+            rx.table(
+                rx.thead(
+                    rx.tr(
+                        rx.th("Name"),
+                        rx.th("Last updated"),
+                    )
+                ),
+                rx.tbody(rx.foreach(CRMState.vikings, viking_row))),
             margin_top="1rem",
         ),
         width="100%",
