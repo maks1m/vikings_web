@@ -8,7 +8,6 @@ class CRMState(State):
     name_filter: str = ""
 
     def on_page_loaded(self):
-        print("crm page loaded")
         self.name_filter = ""
         self.get_vikings()
 
@@ -40,12 +39,10 @@ class CRMState(State):
 
 
 def viking_row(viking: dict):
-    print(viking)
     link = "/viking/" + viking["name"]
     return rx.tr(
         rx.td(rx.link(viking["name"], href=link, color="rgb(107,99,246)")),
         rx.td(viking["modified"]),
-        # rx.td(rx.badge(viking.stage)),
     )
 
 

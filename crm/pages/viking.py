@@ -13,16 +13,12 @@ class VikingState(State):
         return self.get_query_params().get("name", None)
 
     def on_page_loaded(self):
-        print("viking page loaded")
         self.get_data()
 
     def get_data(self):
         with rx.session() as sess:
             self._viking_id = self.get_viking_id(sess)
-            print(self._viking_id)
-
             self.get_movies(sess)
-            print(self.movies)
 
     def get_viking_id(self, sess):
         query = """
@@ -42,7 +38,7 @@ class VikingState(State):
             from viking_movies
             where viking_id = :id
             """
-        print(f"viking ID: {self._viking_id}")
+
         res = sess.execute(query, {"id": self._viking_id}).all()
 
         self.movies = [
