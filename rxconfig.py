@@ -8,7 +8,7 @@ class CrmConfig(rx.Config):
 config = CrmConfig(
     app_name="crm",
     env=rx.Env.DEV,
-    api_url="http://viking_web:8000",
+    api_url="http://78.46.49.173:8000",
     bun_path="/app/.bun/bin/bun",
     db_config=rx.DBConfig(
         engine="postgresql+psycopg2",
