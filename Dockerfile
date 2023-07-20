@@ -40,7 +40,8 @@ COPY --chown=reflex --from=init /app/ /app/
 USER reflex
 WORKDIR /app
 
-#CMD ["reflex","run" , "--env", "prod"]
+CMD ["reflex", "init"]
+#CMD ["reflex", "run", "--env", "prod"]
 CMD ["reflex","run"]
 
 EXPOSE 3000
